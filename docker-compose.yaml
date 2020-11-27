@@ -11,3 +11,58 @@ services:
         volumes:
             - ./soap/:/app
             - ./soap/app/node_modules
+    graphql:
+        container_name: graphql
+        build:
+            context: ./graphql
+            dockerfile: Dockerfile
+        ports:
+            - "3001:3001"
+
+        volumes:
+            - ./graphql/:/app
+            - ./graphql/app/node_modules
+    grpc:
+        container_name: grpc
+        build:
+            context: ./grpc
+            dockerfile: Dockerfile
+        ports:
+            - "3002:3002"
+
+        volumes:
+            - ./grpc/:/app
+            - ./grpc/app/node_modules
+    json-rpc:
+        container_name: json-rpc
+        build:
+            context: ./json-rpc
+            dockerfile: Dockerfile
+        ports:
+            - "3003:3003"
+
+        volumes:
+            - ./json-rpc/:/app
+            - ./json-rpc/app/node_modules
+    rest:
+        container_name: rest
+        build:
+            context: ./rest
+            dockerfile: Dockerfile
+        ports:
+            - "3004:3004"
+
+        volumes:
+            - ./rest/:/app
+            - ./rest/app/node_modules
+    xml-rpc:
+        container_name: xml-rpc
+        build:
+            context: ./xml-rpc
+            dockerfile: Dockerfile
+        ports:
+            - "3005:3005"
+
+        volumes:
+            - ./xml-rpc/:/app
+            - ./xml-rpc/app/node_modules

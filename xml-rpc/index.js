@@ -4,8 +4,8 @@ var app = express();
 
 app.get('/', (req, res) => {
     res.json({
-        pinto: "soap"
+        pinto: "xml-rpc"
     })
 })
 
-app.listen(3000);
+app.listen(3005);
