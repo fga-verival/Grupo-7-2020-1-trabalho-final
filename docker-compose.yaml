@@ -1,0 +1,13 @@
+version: "3.5"
+services:
+    soap:
+        container_name: soap
+        build:
+            context: ./soap
+            dockerfile: Dockerfile
+        ports:
+            - "3000:3000"
+
+        volumes:
+            - ./soap/:/app
+            - ./soap/app/node_modules
