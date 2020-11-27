@@ -1,4 +1,22 @@
 current_dir := $(shell pwd)
+
+.PHONY: up
+
+up:
+	sudo docker-compose up
+
+.PHONY: up-build
+
+up-build:
+	sudo docker-compose up --build
+
+.PHONY: down
+
+up-build:
+	sudo docker-compose down -v
+
+
+
 .PHONY: build-soap
 
 build-soap:
