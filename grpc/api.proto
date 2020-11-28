@@ -1,0 +1,27 @@
+syntax="proto3";
+
+service APIService {
+	rpc GetOne (Empty) returns (One);
+	rpc GetSession (Credentials) returns (Token);
+	rpc GetUserInfo (Token) returns (UserInfo);
+}
+
+message Empty {}
+
+message One {
+	int32 number = 1;
+}
+
+message Credentials {
+	string email = 1;
+	string password = 2;
+}
+
+message Token {
+	string token = 1;
+}
+
+message UserInfo {
+	string username = 1;
+	string email = 2;
+}
