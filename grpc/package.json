@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "start-dev": "nodemon index.js",
-    "test": "nyc --reporter=cobertura --reporter=text mocha tests.js --reporter mocha-junit-reporter"
+    "test": "nyc mocha tests.js"
   },
   "keywords": [],
   "author": "",

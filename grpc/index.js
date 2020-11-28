@@ -67,3 +67,5 @@ server.bindAsync('localhost:3000', grpc.ServerCredentials.createInsecure(), () =
 	server.start();
 	console.log('Server listening at localhost:3000...');
 });
+
+module.exports = { server };
