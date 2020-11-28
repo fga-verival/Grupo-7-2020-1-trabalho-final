@@ -1,9 +1,9 @@
 syntax="proto3";
 
 service APIService {
-	rpc GetOne (Empty) returns (One);
-	rpc GetSession (Credentials) returns (Token);
-	rpc GetUserInfo (Token) returns (UserInfo);
+	rpc getOne (Empty) returns (One);
+	rpc getSession (Credentials) returns (UserSession);
+	rpc getUserInfo (UserSession) returns (UserInfo);
 }
 
 message Empty {}
@@ -17,11 +17,30 @@ message Credentials {
 	string password = 2;
 }
 
-message Token {
-	string token = 1;
+message UserSession {
+	string userSession = 1;
 }
 
 message UserInfo {
-	string username = 1;
-	string email = 2;
+	message Transaction {
+		int32 valor = 1;
+		int32 contaDestionatario = 2;
+		string data = 3;
+	}
+	
+	message Contact {
+		string nome = 1;
+		int32 conta = 2;
+	}
+	
+	string nome = 1;
+	string conta = 2;
+	int32 saldo = 3;
+	repeated Transaction transacoes = 4;
+	repeated Contact contatos = 5;
+	int32 limite = 6;
+	int32 limiteDisponivel = 7;
+	int32 valorElegivelParaEmprestimo = 8;
+	int32 pontos = 9;
 }
+
