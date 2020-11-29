@@ -1,23 +1,47 @@
 <definitions name="MyService" targetNamespace="http://www.examples.com/wsdl/MyService.wsdl" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.examples.com/wsdl/MyService.wsdl" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
    <message name="getOneRequest">
-      <part name="testParam" type="xsd:string" />
+      <part name="testParam" />
    </message>
    <message name="getOneResponse">
+      <part name="number" type="xsd:integer" />
+   </message>
+
+   <message name="loginRequest">
+      <part name="email" type="xsd:string" />
+      <part name="password" type="xsd:string" />
+   </message>
+   <message name="loginResponse">
       <part name="status" type="xsd:string" />
    </message>
+
+   <message name="getUserRequest">
+      <part name="user_session" type="xsd:string" />
+   </message>
+   <message name="getUserResponse">
+      <part name="nome" type="xsd:string" />
+      <part name="conta" type="xsd:integer" />
+      <part name="saldo" type="xsd:integer" />
+      <part name="transacoes" type="xsd:string" />
+      <part name="contatos" type="xsd:string"/>
+      <part name="limite" type="xsd:integer" />
+      <part name="limiteDisponivel" type="xsd:integer" />
+      <part name="valorElegivelParaEmprestimo" type="xsd:integer" />
+      <part name="pontos" type="xsd:integer" />
+   </message>
+
    <portType name="MyPort">
       <operation name="getOne">
          <input message="tns:getOneRequest" />
          <output message="tns:getOneResponse" />
       </operation>
       <operation name="login">
-         <input message="tns:getOneRequest" />
-         <output message="tns:getOneResponse" />
+         <input message="tns:loginRequest" />
+         <output message="tns:loginResponse" />
       </operation>
       <operation name="getUser">
-         <input message="tns:getOneRequest" />
-         <output message="tns:getOneResponse" />
+         <input message="tns:getUserRequest" />
+         <output message="tns:getUserResponse" />
       </operation>
    </portType>
 
@@ -25,9 +49,6 @@
       <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
       <operation name="getOne">
          <soap:operation soapAction="getOne" />
-         <input>
-            <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:examples:MyService" use="encoded" />
-         </input>
          <output>
             <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:examples:MyService" use="encoded" />
          </output>
@@ -42,7 +63,7 @@
          </output>
       </operation>
       <operation name="getUser">
-         <soap:operation soapAction="login" />
+         <soap:operation soapAction="getUser" />
          <input>
             <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:examples:MyService" use="encoded" />
          </input>
