@@ -120,3 +120,5 @@ app.use(
 );
 
 app.listen(3001);
+
+module.exports = app;
