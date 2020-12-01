@@ -44,7 +44,7 @@ const resposta = {
 }
 
 app.get('/simple', (req, res) => {
-		res.status(200).send(1);
+		res.status(200).send({teste1: 1});
 })
 
 app.post('/auth', (req, res) => {
