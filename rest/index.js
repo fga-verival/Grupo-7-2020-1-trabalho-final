@@ -4,8 +4,9 @@ var app = express();
 var auth = 0;
 const resposta = {
     "nome": "João",
+    "cpf": 123456789,
     "conta": 111,
-    "userSession": "123",
+    "senha": "123",
     "saldo": 123,
     "transacoes": [
         {
@@ -43,11 +44,15 @@ const resposta = {
 }
 
 app.get('/simple', (req, res) => {
-    res.json(1)
+		res.status(200).send(1);
 })
 
 app.post('/auth', (req, res) => {
-	if(req.get('user-session') === resposta.userSession){
+	console.log(req.get('cpf'))
+	console.log(resposta.cpf)
+	console.log(req.get('senha'))
+	console.log(resposta.senha)
+	if(req.get('cpf') == resposta.cpf && req.get('senha') == resposta.senha){
 		auth = 1;
 		res.status(200).send({
 			code: '200',
@@ -63,7 +68,7 @@ app.post('/auth', (req, res) => {
 
 app.get('/clients', (req, res) => {
 	if(auth){
-    res.json(resposta)
+    res.status(200).send(resposta)
 	}
 	else{
 		res.status(401).send({
