@@ -50,7 +50,10 @@ const obj = {
 }
 
 server.addMethod("simples", ({cpf, pwd}) => 1)
-server.addMethod("auth", ({cpf, pwd}) => cpf)
+server.addMethod("auth", ({cpf, pwd}) => {
+                              if(cpf && pwd)return {cpf:cpf,message:'User authenticated'}
+                              else return "Not authorized"
+                            })
 server.addMethod("data", ({cpf, pwd}) => obj)
 
 app.post('/', (req, res) => {
