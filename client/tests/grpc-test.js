@@ -69,4 +69,61 @@ describe('gRPC', () => {
 			}
 		});
 	}).timeout(5000);
+
+	function unitTest() {
+		return new Promise((resolve, reject) => {
+			client.getOne({}, (err, res) => {
+				if (err)
+					console.log(err);
+				else {
+					res.should.be.an('Object');
+					res.should.have.property('number').that.is.a('Number').equal(1);
+					resolve();
+				}
+			});
+		});
+	}
+
+	function completeTest() {
+		return new Promise((resolve, reject) => {
+			client.getSession({ email: "a@a.a", password: "aaa" }, (err, res) => {
+				if (err)
+					console.log(err);
+				else {
+					client.getUserInfo({ userSession: '123' }, (err, res) => {
+						if (err)
+							console.log(err);
+						else {
+							res.should.have.property('valorElegivelParaEmprestimo').that.is.an('Number').equal(10000);
+							resolve();
+						}
+					});
+				}
+			});
+		});
+	}
+
+	it('Scaled Unit', (done) => {
+		let testsDone = 0;
+		for(let i=0; i<1000; i++) {
+			unitTest().then(() => {
+				testsDone++;
+				if(testsDone == 1000) {
+					done();
+				}			
+			});
+		}
+	}).timeout(5000);
+
+	it('Scaled Complete Info', (done) => {
+		let testsDone = 0;
+		for(let i=0; i<1000; i++) {
+			completeTest().then(() => {
+				testsDone++;
+				if(testsDone == 1000) {
+					done();
+				}			
+			});
+		}
+	}).timeout(5000);
 });

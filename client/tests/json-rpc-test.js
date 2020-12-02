@@ -46,4 +46,58 @@ describe('JSON-rpc API tests', () => {
             });
     });
 
+    function unitTest() {
+		return new Promise((resolve, reject) => {
+			chai.request('http://localhost:3003')
+            .post('/')
+            .send({ 'jsonrpc': "2.0", "method": "simples", "params": { "cpf": "hehe", "pwd": "123" }, "id": 123 })
+            .end((err, res) => {
+                chai.expect(res.body).to.have.property('result', 1);
+                resolve();
+            });
+		});
+	}
+
+	function completeTest() {
+		return new Promise((resolve, reject) => {
+			chai.request('http://localhost:3003')
+            .post('/')
+            .send({ 'jsonrpc': "2.0", "method": "auth", "params": { "cpf": "hehe", "pwd": "123" }, "id": 123 })
+            .end((err, res) => {
+                chai.expect(res.body.result).to.have.property('message', 'User authenticated');
+                chai.request('http://localhost:3003')
+                    .post('/')
+                    .send({ 'jsonrpc': "2.0", "method": "data", "params": { "cpf": "hehe", "pwd": "123" }, "id": 123 })
+                    .end((err, res) => {
+                        chai.expect(res.body.result).to.have.property('conta', 111);
+                        resolve();
+                    });
+            });
+		});
+	}
+
+	it('Scaled Unit', (done) => {
+		let testsDone = 0;
+		for(let i=0; i<1000; i++) {
+			unitTest().then(() => {
+				testsDone++;
+				if(testsDone == 1000) {
+					done();
+				}			
+			});
+		}
+	}).timeout(5000);
+
+	it('Scaled Complete Info', (done) => {
+		let testsDone = 0;
+		for(let i=0; i<1000; i++) {
+			completeTest().then(() => {
+				testsDone++;
+				if(testsDone == 1000) {
+					done();
+				}			
+			});
+		}
+	}).timeout(5000);
+
 });

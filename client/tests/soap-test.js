@@ -80,4 +80,54 @@ describe('soap', () => {
             });
         });
     }).timeout(5000);
+
+    function unitTest() {
+		return new Promise((resolve, reject) => {
+			soap.createClient(url, function (err, client) {
+                client.getOne(function (err, result) {
+                    result.should.have.property('number').that.is.a('number').equal(1);
+                    resolve();
+                });
+            });
+		});
+	}
+
+	function completeTest() {
+		return new Promise((resolve, reject) => {
+			soap.createClient(url, function (err, client) {
+                client.login(args, function (err, result) {
+                    result.should.have.property('user_session').that.is.a('string').equal('123456');
+    
+                });
+                client.getUser(args, function (err, result) {
+                    result.should.have.property('valorElegivelParaEmprestimo').that.is.an('number').equal(10000);
+                    resolve();
+                });
+            });
+		});
+	}
+
+	it('Scaled Unit', (done) => {
+		let testsDone = 0;
+		for(let i=0; i<1000; i++) {
+			unitTest().then(() => {
+				testsDone++;
+				if(testsDone == 1000) {
+					done();
+				}			
+			});
+		}
+	}).timeout(5000);
+
+	it('Scaled Complete Info', (done) => {
+		let testsDone = 0;
+		for(let i=0; i<1000; i++) {
+			completeTest().then(() => {
+				testsDone++;
+				if(testsDone == 1000) {
+					done();
+				}			
+			});
+		}
+	}).timeout(5000);
 });

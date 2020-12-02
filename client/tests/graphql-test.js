@@ -122,10 +122,102 @@ describe('graphql', () => {
                             "pontos": 0
                         });
 
-
                         done();
                     });
             });
     });
+
+    function unitTest() {
+		return new Promise((resolve, reject) => {
+			let query = {
+                query: "{ test1 }"
+            }
+            chai.request(graphqlServer)
+                .post('/graphql')
+                .send(query)
+                .end((err, res) => {
+                    res.body.data.should.have.property('test1').eql(1);
+                    resolve()
+                });
+		});
+	}
+
+	function completeTest() {
+		return new Promise((resolve, reject) => {
+			let query = {
+                query: '{ login(email: "abc", senha: "abc") }'
+            }
+    
+            chai.request(graphqlServer)
+                .post('/graphql')
+                .send(query)
+                .end((err, res) => {
+                    query = {
+                        query: `{
+                            getUser(auth:"asdasd") {
+                              nome
+                              conta
+                              saldo
+                            }
+                            getTransacao(auth:"asdasd") {
+                                valor
+                                contaDestinatario
+                                data
+                            }
+                            getContato(auth:"asdasd") {
+                                nome
+                                conta
+                            }
+                            getLimite(auth:"asdasd") {
+                                limite
+                                limiteDisponivel
+                            }
+                            getEmprestimo(auth:"asdasd") {
+                                valorElegivelParaEmprestimo
+                            }
+                            getPontos(auth:"asdasd") {
+                                pontos
+                          }
+                        }`
+                    }
+    
+                    chai.request(graphqlServer)
+                        .post('/graphql')
+                        .send(query)
+                        .end((err, res) => {
+    
+                            res.body.data.should.have.property('getEmprestimo').eql({
+                                "valorElegivelParaEmprestimo": 10000
+                            });
+    
+                            resolve();
+                        });
+                });
+		});
+	}
+
+    it('Scaled Unit', (done) => {
+		let testsDone = 0;
+		for(let i=0; i<1000; i++) {
+			unitTest().then(() => {
+				testsDone++;
+				if(testsDone == 1000) {
+					done();
+				}			
+			});
+		}
+	}).timeout(5000);
+
+	it('Scaled Complete Info', (done) => {
+		let testsDone = 0;
+		for(let i=0; i<1000; i++) {
+			completeTest().then(() => {
+				testsDone++;
+				if(testsDone == 1000) {
+					done();
+				}			
+			});
+		}
+	}).timeout(5000);
 
 });

@@ -6,7 +6,7 @@ const should = chai.should();
 
 describe('xmlrpc', () => {
     var client
-    
+
     before((done) => {
         var clientOptions = {
             host: 'localhost',
@@ -61,7 +61,62 @@ describe('xmlrpc', () => {
                 });
             }
         });
-
-
     });
+
+    function unitTest() {
+		return new Promise((resolve, reject) => {
+			client.methodCall('getOne', null, function(err, value) {
+            
+                if(err)
+                    console.log(err);
+                else {
+                    value.should.be.a('Number').eql(1);
+                resolve();
+                }
+            });
+		});
+	}
+
+	function completeTest() {
+		return new Promise((resolve, reject) => {
+			client.methodCall('getUserSession', null, function(err, value) {
+                if(err)
+                    console.log(err)
+                else {
+                    client.methodCall('getUserInfo', null, function(err, value) {
+                        if(err)
+                            console.log(err);
+                        else {
+                            value.should.have.property('valorElegivelParaEmprestimo').that.is.an('Number').equal(10000);
+                            resolve();
+                        }
+                    });
+                }
+            });
+		});
+	}
+
+	it('Scaled Unit', (done) => {
+		let testsDone = 0;
+		for(let i=0; i<1000; i++) {
+			unitTest().then(() => {
+				testsDone++;
+				if(testsDone == 1000) {
+					done();
+				}			
+			});
+		}
+	}).timeout(5000);
+
+	it('Scaled Complete Info', (done) => {
+		let testsDone = 0;
+		for(let i=0; i<1000; i++) {
+			completeTest().then(() => {
+				testsDone++;
+				if(testsDone == 1000) {
+					done();
+				}			
+			});
+		}
+	}).timeout(5000);
 });
