@@ -48,31 +48,18 @@ app.get('/simple', (req, res) => {
 })
 
 app.post('/auth', (req, res) => {
-    if (req.get('cpf') == resposta.cpf && req.get('senha') == resposta.senha) {
-        auth = 1;
-        res.status(200).send({
-            code: '200',
-            message: 'User authenticated'
-        });
-    } else {
-        res.status(401).send({
-            code: '401',
-            message: 'Wrong password'
-        });
-    }
+
+    auth = 1;
+    res.status(200).send({
+        code: '200',
+        message: 'User authenticated'
+    });
+
 
 })
 
 app.get('/clients', (req, res) => {
-    if (auth) {
-        res.status(200).send(resposta)
-    }
-    else {
-        res.status(401).send({
-            code: '401',
-            message: 'User does not have permission.'
-        });
-    }
+    res.status(200).send(resposta)
 })
 
 app.listen(3004);
