@@ -6,6 +6,14 @@ chai.use(chaiHttp);
 
 describe('Rest', () => {
 
+    before((done) => {
+        chai.request('http://localhost:3004')
+            .get('/simple')
+            .end((err, res) => {
+                done();
+            });
+    })
+
     it('Unit', (done) => {
         chai.request('http://localhost:3004')
             .get('/simple')

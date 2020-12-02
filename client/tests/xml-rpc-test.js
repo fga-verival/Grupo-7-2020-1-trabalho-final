@@ -6,13 +6,23 @@ const should = chai.should();
 
 describe('xmlrpc', () => {
     var client
-    before(() => {
+    
+    before((done) => {
         var clientOptions = {
             host: 'localhost',
             port: 3005,
             path: '/'
         }
         client = xmlrpc.createClient(clientOptions)
+
+        client.methodCall('getOne', null, function(err, value) {
+            
+            if(err)
+                console.log(err);
+            else {
+                done();
+            }
+        });
     })
 
     it('Unit', (done) => {

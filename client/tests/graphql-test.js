@@ -6,7 +6,20 @@ const should = chai.should();
 
 chai.use(chaiHttp);
 
+
 describe('graphql', () => {
+
+    before((done) => {
+        let query = {
+            query: "{ test1 }"
+        }
+        chai.request(graphqlServer)
+            .post('/graphql')
+            .send(query)
+            .end((err, res) => {
+                done();
+            });
+    });
 
     it('Unit', (done) => {
         let query = {

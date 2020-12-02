@@ -7,6 +7,15 @@ chai.use(chaiHttp);
 
 describe('JSON-rpc API tests', () => {
 
+    before((done) => {
+        chai.request('http://localhost:3003')
+            .post('/')
+            .send({ 'jsonrpc': "2.0", "method": "simples", "params": { "cpf": "hehe", "pwd": "123" }, "id": 123 })
+            .end((err, res) => {
+                done();
+            });
+    })
+
     it('Unit', (done) => {
         chai.request('http://localhost:3003')
             .post('/')

@@ -8,7 +8,7 @@ const should = chai.should();
 describe('gRPC', () => {
 	let client;
 
-	before(() => {
+	before((done) => {
 		const packageDefinition = protoLoader.loadSync('api.proto', {
 			keepCase: true,
 			longs: String,
@@ -18,6 +18,14 @@ describe('gRPC', () => {
 		});
 		const APIService = grpc.loadPackageDefinition(packageDefinition).APIService;
 		client = new APIService('localhost:3000', grpc.credentials.createInsecure());
+
+		client.getOne({}, (err, res) => {
+			if (err)
+				console.log(err);
+			else {
+				done();
+			}
+		});
 	});
 
 	after(() => {

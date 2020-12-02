@@ -11,7 +11,7 @@ const should = chai.should();
 
 describe('soap', () => {
 
-    before(() => {
+    before((done) => {
         var myService = {
             MyService: {
                 MyPort: {
@@ -39,6 +39,13 @@ describe('soap', () => {
         app.listen(3000, function () {
             soap.listen(app, '/wsdl', myService, xml);
         });
+
+        soap.createClient(url, function (err, client) {
+            client.getOne(function (err, result) {
+                done();
+            });
+        });
+
     });
 
     it('Unit', (done) => {
