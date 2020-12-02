@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "start-dev": "nodemon index.js",
-    "test": "mocha"
+    "test": "mocha -s 0"
   },
   "keywords": [],
   "author": "",

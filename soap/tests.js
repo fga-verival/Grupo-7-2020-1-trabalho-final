@@ -41,6 +41,10 @@ describe('soap', () => {
         });
     });
 
+    after(() => {
+        process.exit();
+    })
+
     it('should return 1', (done) => {
         soap.createClient(url, function (err, client) {
             client.getOne(function (err, result) {
