@@ -12,17 +12,17 @@ const resposta = {
         {
             "valor": 123,
             "conta-destinatario": 123,
-            "data": "1/1/2001" 
+            "data": "1/1/2001"
         },
         {
             "valor": 132,
             "conta-destinatario": 132,
-            "data": "1/1/2003" 
+            "data": "1/1/2003"
         },
         {
             "valor": 321,
             "conta-destinatario": 321,
-            "data": "1/1/2004" 
+            "data": "1/1/2004"
         }
 
     ],
@@ -44,38 +44,35 @@ const resposta = {
 }
 
 app.get('/simple', (req, res) => {
-		res.status(200).send({teste1: 1});
+    res.status(200).send({ teste1: 1 });
 })
 
 app.post('/auth', (req, res) => {
-	console.log(req.get('cpf'))
-	console.log(resposta.cpf)
-	console.log(req.get('senha'))
-	console.log(resposta.senha)
-	if(req.get('cpf') == resposta.cpf && req.get('senha') == resposta.senha){
-		auth = 1;
-		res.status(200).send({
-			code: '200',
-			message: 'User authenticated'
-		});
-	}
+    if (req.get('cpf') == resposta.cpf && req.get('senha') == resposta.senha) {
+        auth = 1;
+        res.status(200).send({
+            code: '200',
+            message: 'User authenticated'
+        });
+    } else {
+        res.status(401).send({
+            code: '401',
+            message: 'Wrong password'
+        });
+    }
 
-		res.status(401).send({
-			code: '401',
-			message: 'Wrong password'
-		});
 })
 
 app.get('/clients', (req, res) => {
-	if(auth){
-    res.status(200).send(resposta)
-	}
-	else{
-		res.status(401).send({
-			code: '401',
-			message: 'User does not have permission.'
-		});
-	}
+    if (auth) {
+        res.status(200).send(resposta)
+    }
+    else {
+        res.status(401).send({
+            code: '401',
+            message: 'User does not have permission.'
+        });
+    }
 })
 
 app.listen(3004);
