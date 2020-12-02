@@ -1,7 +1,6 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../index');
-var request = require('request');
 
 
 chai.use(chaiHttp);
