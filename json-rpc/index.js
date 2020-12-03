@@ -12,7 +12,6 @@ app.use(bodyParser.json());
 const obj = {
     "nome": "João",
     "conta": 111,
-    "userSession": "123",
     "saldo": 123,
     "transacoes": [
         {

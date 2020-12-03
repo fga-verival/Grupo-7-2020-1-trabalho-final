@@ -4,9 +4,7 @@ var app = express();
 var auth = 0;
 const resposta = {
     "nome": "João",
-    "cpf": 123456789,
     "conta": 111,
-    "senha": "123",
     "saldo": 123,
     "transacoes": [
         {

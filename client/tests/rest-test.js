@@ -33,7 +33,14 @@ describe('Rest', () => {
                     .get('/clients')
                     .end((err, res) => {
                         chai.expect(res.body).to.have.property('nome', 'João');
-                        chai.expect(res.body).to.have.property('cpf', 123456789);
+                        chai.expect(res.body).to.have.property('conta', 111);
+                        chai.expect(res.body).to.have.property('saldo', 123);
+                        chai.expect(res.body).to.have.property('transacoes').that.is.an('Array').that.has.lengthOf(3);
+                        chai.expect(res.body).to.have.property('contatos').that.is.an('Array').that.has.lengthOf(2);
+                        chai.expect(res.body).to.have.property('limite', 400);
+                        chai.expect(res.body).to.have.property('limiteDisponivel', 135);
+                        chai.expect(res.body).to.have.property('valorElegivelParaEmprestimo', 10000);
+                        chai.expect(res.body).to.have.property('pontos', 0);
                         done();
                     });
 
@@ -61,7 +68,7 @@ describe('Rest', () => {
                 chai.request('http://localhost:3004')
                     .get('/clients')
                     .end((err, res) => {
-                        chai.expect(res.body).to.have.property('cpf', 123456789);
+                        chai.expect(res.body).to.have.property('valorElegivelParaEmprestimo', 10000);
                         resolve();
                     });
 

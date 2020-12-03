@@ -41,6 +41,13 @@ describe('JSON-rpc API tests', () => {
                         chai.expect(res.body).to.have.property('result')
                         chai.expect(res.body.result).to.have.property('nome', 'João');
                         chai.expect(res.body.result).to.have.property('conta', 111);
+                        chai.expect(res.body.result).to.have.property('saldo', 123);
+                        chai.expect(res.body.result).to.have.property('transacoes').that.is.an('Array').that.has.lengthOf(3);
+                        chai.expect(res.body.result).to.have.property('contatos').that.is.an('Array').that.has.lengthOf(2);
+                        chai.expect(res.body.result).to.have.property('limite', 400);
+                        chai.expect(res.body.result).to.have.property('limiteDisponivel', 135);
+                        chai.expect(res.body.result).to.have.property('valorElegivelParaEmprestimo', 10000);
+                        chai.expect(res.body.result).to.have.property('pontos', 0);
                         done();
                     });
             });
